@@ -27,6 +27,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 fun ComposeLottieScreen() {
 
     var isSuccess by remember { mutableStateOf(false) }
+    var isFailed by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -34,7 +35,8 @@ fun ComposeLottieScreen() {
     ){
         ComposeLottieAnimation(
             modifier = Modifier.align(alignment = Alignment.Center),
-            isCompleted = isSuccess
+            isSuccess = isSuccess,
+            isFailed = isFailed
         )
 
         Column(
@@ -47,10 +49,28 @@ fun ComposeLottieScreen() {
                 modifier = Modifier
                     .align(alignment = Alignment.CenterHorizontally)
                     .padding(bottom = 15.dp),
-                onClick = { isSuccess = true }
+                onClick = {
+                    isSuccess = true
+                    isFailed = false
+                }
             ) {
                 Text(
                     text = "Successful"
+                )
+            }
+
+            // Failure button.
+            Button(
+                modifier = Modifier
+                    .align(alignment = Alignment.CenterHorizontally)
+                    .padding(bottom = 15.dp),
+                onClick = {
+                    isFailed = true
+                    isSuccess = false
+                }
+            ) {
+                Text(
+                    text = "Failure"
                 )
             }
 
@@ -59,7 +79,10 @@ fun ComposeLottieScreen() {
                 modifier = Modifier
                     .align(alignment = Alignment.CenterHorizontally)
                     .padding(bottom = 45.dp),
-                onClick = { isSuccess = false }
+                onClick = {
+                    isSuccess = false
+                    isFailed = false
+                }
             ) {
                 Text(
                     text = "Restart"
@@ -70,11 +93,11 @@ fun ComposeLottieScreen() {
 }
 
 @Composable
-fun ComposeLottieAnimation(modifier: Modifier, isCompleted: Boolean) {
+fun ComposeLottieAnimation(modifier: Modifier, isSuccess: Boolean, isFailed: Boolean) {
 
     val clipSpecs = LottieClipSpec.Progress(
-        min = 0.0f,
-        max = if (isCompleted) 0.44f else 0.282f
+        min = if (isFailed) 0.499f else 0.0f,
+        max = if (isSuccess) 0.44f else if (isFailed) 0.95f else 0.282f
     )
 
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.anim_loading_success_failed))
@@ -82,7 +105,7 @@ fun ComposeLottieAnimation(modifier: Modifier, isCompleted: Boolean) {
     LottieAnimation(
         modifier = modifier,
         composition = composition,
-        iterations = if (isCompleted) 1 else LottieConstants.IterateForever,
+        iterations = if (isSuccess || isFailed) 1 else LottieConstants.IterateForever,
         clipSpec = clipSpecs,
     )
 }
