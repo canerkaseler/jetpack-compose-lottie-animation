@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieClipSpec
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
@@ -27,12 +28,15 @@ fun ComposeLottieScreen() {
 @Composable
 fun ComposeLottieAnimation(modifier: Modifier) {
 
+    val clipSpecs = LottieClipSpec.Progress(0.2f, 0.5f)
+
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.anim_loading_success_failed))
 
     LottieAnimation(
         modifier = modifier,
         composition = composition,
         iterations = LottieConstants.IterateForever,
+        clipSpec = clipSpecs,
     )
 }
 
