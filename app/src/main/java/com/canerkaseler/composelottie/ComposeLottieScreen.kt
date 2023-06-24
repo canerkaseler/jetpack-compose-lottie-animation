@@ -2,6 +2,7 @@ package com.canerkaseler.composelottie
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -36,13 +37,34 @@ fun ComposeLottieScreen() {
             isCompleted = isSuccess
         )
 
-        Button(
-            modifier = Modifier.align(alignment = Alignment.BottomCenter).padding(bottom = 45.dp),
-            onClick = { isSuccess = true }
+        Column(
+            modifier = Modifier.align(Alignment.BottomCenter)
         ) {
-            Text(
-                text = "Successful"
-            )
+
+
+            // Successful button.
+            Button(
+                modifier = Modifier
+                    .align(alignment = Alignment.CenterHorizontally)
+                    .padding(bottom = 15.dp),
+                onClick = { isSuccess = true }
+            ) {
+                Text(
+                    text = "Successful"
+                )
+            }
+
+            // Restart button.
+            Button(
+                modifier = Modifier
+                    .align(alignment = Alignment.CenterHorizontally)
+                    .padding(bottom = 45.dp),
+                onClick = { isSuccess = false }
+            ) {
+                Text(
+                    text = "Restart"
+                )
+            }
         }
     }
 }
